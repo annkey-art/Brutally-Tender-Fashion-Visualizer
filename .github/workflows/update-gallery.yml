@@ -1,0 +1,71 @@
+name: Update Gallery
+
+'on':
+  push:
+    branches:
+      - gallery-upgrade
+      - main
+    paths:
+      - 'gallery/**'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-gallery:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+
+      - name: Generate gallery list
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          root = Path("gallery")
+          categories = [
+              "blackout-curtains",
+              "roller-blinds",
+              "roman-blinds",
+              "sheers",
+              "venetian-blinds",
+              "vertical-blinds",
+              "motorized-blinds",
+              "motorized-curtains"
+          ]
+
+          extensions = {".jpg", ".jpeg", ".png", ".webp", ".mp4", ".webm"}
+
+          galleries = {}
+
+          for category in categories:
+              folder = root / category
+              files = []
+
+              if folder.exists():
+                  for file in sorted(folder.iterdir()):
+                      if file.is_file() and file.suffix.lower() in extensions:
+                          files.append(file.as_posix())
+
+              galleries[category] = files
+
+          output = "const galleries = " + json.dumps(
+              galleries, indent=2, ensure_ascii=False
+          ) + ";\n"
+
+          Path("gallery-data.js").write_text(output, encoding="utf-8")
+
+      - name: Save gallery list
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gallery-data.js
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Automatically update gallery"
+            git push
+          fi

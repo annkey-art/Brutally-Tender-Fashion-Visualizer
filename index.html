@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alef Noon Visualizer</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f1ea;
+      color: #2b2b2b;
+    }
+
+    header {
+      background: #3b2f24;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      opacity: 0.85;
+    }
+
+    main {
+      padding: 18px;
+      max-width: 520px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    input {
+      width: 100%;
+      margin: 12px 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin: 7px 0;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #4a3428, #8b6f4e);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6f563b;
+    }
+.control-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.control-grid button {
+  font-size: 14px;
+  padding: 12px;
+}
+    #previewImage {
+      width: 100%;
+      border-radius: 16px;
+      margin-top: 12px;
+      display: none;
+    }
+  .preview-box {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+    
+
+#previewImage {
+  width: 100%;
+  border-radius: 16px;
+  margin-top: 12px;
+  display: none;
+}
+
+#curtainOverlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 45%;
+  display: none;
+  pointer-events: none;
+}
+    .status {
+      background: #efe5d8;
+      padding: 12px;
+      border-radius: 14px;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+  <img
+    src="IMG-20260606-WA0022.jpg"
+    alt="Alef Noon Curtains"
+    style="
+      width:100%;
+      max-width:500px;
+      display:block;
+      margin:auto;
+      border-radius:12px;
+      background:white;
+      padding:10px;
+    "
+  >
+
+  <p style="margin-top:15px;">
+    Client window preview and organized project gallery
+  </p>
+</header>
+
+  <main>
+<section class="card">
+  <h2>Welcome</h2>
+  <p>Select a client window photo, choose a curtain or blind type, and browse Alef Noon project examples.</p>
+</section>
+    <section class="card">
+      <h2>Customer Window Photo</h2>
+      <p>Upload a photo from client’s home.</p>
+
+      <input type="file" accept="image/*" onchange="showImage(event)" />
+
+     <div class="preview-box">
+  <img id="previewImage" />
+  <img id="curtainOverlay" />
+</div>
+      <div class="status" id="selectedStyle">
+        No curtain style selected yet.
+      </div>
+      <h3>Adjust Preview</h3>
+
+<div class="control-grid">
+  <button onclick="moveOverlay('up')">⬆️ Up</button>
+  <button onclick="moveOverlay('down')">⬇️ Down</button>
+  <button onclick="moveOverlay('left')">⬅️ Left</button>
+  <button onclick="moveOverlay('right')">➡️ Right</button>
+  <button onclick="resizeOverlay('bigger')">➕ Bigger</button>
+  <button onclick="resizeOverlay('smaller')">➖ Smaller</button>
+<button onclick="downloadPreview()">⬇️ Download Client Preview</button>
+</div>
+    </section>
+
+    <section class="card">
+      <h2>Choose Curtain Type</h2>
+<button onclick="selectStyle('blackout-curtains')">
+  Blackout Curtains Dark
+</button>
+
+<button onclick="selectStyle('blackout-curtains-cream')">
+  Blackout Curtains Cream
+</button>
+  
+      <button onclick="selectStyle('sheer-curtains')">Sheer-Curtains</button>
+      <button onclick="selectStyle('Blackout-Sheer')">Blackout-Sheer</button>
+      <button onclick="selectStyle('roller-blinds')">Roller-Blinds</button>
+      <button onclick="selectStyle('roman-blinds')">Roman-Blinds</button>
+      <button onclick="selectStyle('vertical-blinds')">Vertical-Blinds</button>
+      <button onclick="selectStyle('wooden-blinds')">Wooden-Blinds</button>
+      
+    </section>
+
+    <section class="card">
+      <h2>Project Gallery</h2>
+
+
+      <button onclick="openGallery('blackout-curtains')">blackout-curtains</button>
+      <button onclick="openGallery('sheers')">sheers</button>
+      <button onclick="openGallery('roman-blinds')">roman-blinds</button>
+      <button onclick="openGallery('roller-blinds')">roller-blinds</button>
+      <button onclick="openGallery('venetian-blinds')">venetian-blinds</button>
+      <button onclick="openGallery('vertical-blinds')">vertical-blinds</button>
+      <button onclick="openGallery('motorized-curtains')">motorized-curtains</button>
+      <button onclick="openGallery('motorized-blinds')">motorized-blinds</button>
+
+      <div class="status" id="galleryStatus">
+  Choose a gallery category.
+</div>
+
+<img id="galleryImage"
+     src=""
+     style="width:100%; margin-top:15px; border-radius:12px; display:none;">
+<video id="galleryVideo"
+       controls
+       playsinline
+       style="width:100%; margin-top:15px; border-radius:12px; display:none;">
+</video>
+<div class="control-grid">
+  <button onclick="previousImage()">⬅️ Previous</button>
+  <button onclick="nextImage()">➡️ Next</button>
+</div>
+     
+    </section>
+
+  </main>
+<script src="gallery-data.js"></script>
+<script>
+const overlays = {
+  "blackout-curtains": "gallery/overlays/blackout-overlay.png",
+  "blackout-curtains-cream": "gallery/overlays/blackout-overlays-cream.png",
+  "sheer-curtains": "gallery/overlays/sheer-overlays.png",
+  "roller-blinds": "gallery/overlays/roller-overlay.png",
+  "roman-blinds": "gallery/overlays/roman-blind-overlay.png",
+  "vertical-blinds": "gallery/overlays/vertical-overlay.png",
+  "wooden-blinds": "gallery/overlays/venetian-overlays.png"
+};
+
+let overlayX = 20;
+let overlayY = 20;
+let overlaySize = 45;
+
+let currentGallery = [];
+let currentGalleryIndex = 0;
+
+function showImage(event) {
+  const image = document.getElementById("previewImage");
+  image.src = URL.createObjectURL(event.target.files[0]);
+  image.style.display = "block";
+}
+
+function updateOverlayPosition() {
+  const overlay = document.getElementById("curtainOverlay");
+  overlay.style.left = overlayX + "px";
+  overlay.style.top = overlayY + "px";
+  overlay.style.width = overlaySize + "%";
+}
+
+function moveOverlay(direction) {
+  if (direction === "left") overlayX -= 10;
+  if (direction === "right") overlayX += 10;
+  if (direction === "up") overlayY -= 10;
+  if (direction === "down") overlayY += 10;
+  updateOverlayPosition();
+}
+
+function resizeOverlay(action) {
+  if (action === "bigger") overlaySize += 5;
+  if (action === "smaller") overlaySize -= 5;
+  updateOverlayPosition();
+}
+
+function selectStyle(styleName) {
+  document.getElementById("selectedStyle").innerText =
+    "Selected style: " + styleName;
+
+  const overlay = document.getElementById("curtainOverlay");
+
+  if (overlays[styleName]) {
+    overlay.src = overlays[styleName];
+    overlay.style.display = "block";
+    updateOverlayPosition();
+  }
+}
+function showGalleryItem(file) {
+  const galleryImage = document.getElementById("galleryImage");
+  const galleryVideo = document.getElementById("galleryVideo");
+
+  const isVideo = /\.(mp4|webm|mov)$/i.test(file);
+
+  if (isVideo) {
+    galleryImage.style.display = "none";
+
+    galleryVideo.src = file;
+    galleryVideo.style.display = "block";
+    galleryVideo.load();
+  } else {
+    galleryVideo.pause();
+    galleryVideo.style.display = "none";
+    galleryVideo.removeAttribute("src");
+
+    galleryImage.src = file;
+    galleryImage.style.display = "block";
+  }
+}
+function openGallery(category) {
+  const galleryImage = document.getElementById("galleryImage");
+  const galleryStatus = document.getElementById("galleryStatus");
+
+  currentGallery = galleries[category] || [];
+  currentGalleryIndex = 0;
+
+  if (currentGallery.length === 0) {
+    galleryImage.style.display = "none";
+    galleryStatus.innerText = "No image added yet for: " + category;
+    return;
+  }
+
+  showGalleryItem(currentGallery[currentGalleryIndex]);
+  galleryStatus.innerText =
+    "Showing: " + category + " 1 / " + currentGallery.length;
+}
+
+function nextImage() {
+  if (currentGallery.length < 2) return;
+
+  currentGalleryIndex = (currentGalleryIndex + 1) % currentGallery.length;
+
+  showGalleryItem(currentGallery[currentGalleryIndex]);
+  document.getElementById("galleryStatus").textContent =
+  `Showing: ${currentGalleryIndex + 1} / ${currentGallery.length}`;
+}
+
+function previousImage() {
+  if (currentGallery.length < 2) return;
+
+  currentGalleryIndex =
+    (currentGalleryIndex - 1 + currentGallery.length) %
+    currentGallery.length;
+
+  showGalleryItem(currentGallery[currentGalleryIndex]);
+  document.getElementById("galleryStatus").textContent =
+  `Showing: ${currentGalleryIndex + 1} / ${currentGallery.length}`;
+}
+
+function downloadPreview() {
+  const previewImage = document.getElementById("previewImage");
+  const overlay = document.getElementById("curtainOverlay");
+
+  if (!previewImage.src || previewImage.style.display === "none") {
+    alert("Please upload a customer photo first.");
+    return;
+  }
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = previewImage.naturalWidth;
+  canvas.height = previewImage.naturalHeight;
+
+  ctx.drawImage(
+    previewImage,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  if (overlay.src && overlay.style.display !== "none") {
+    const imageRect = previewImage.getBoundingClientRect();
+    const overlayRect = overlay.getBoundingClientRect();
+
+    const scaleX = canvas.width / imageRect.width;
+    const scaleY = canvas.height / imageRect.height;
+
+    const exportX = (overlayRect.left - imageRect.left) * scaleX;
+    const exportY = (overlayRect.top - imageRect.top) * scaleY;
+    const exportWidth = overlayRect.width * scaleX;
+    const exportHeight = overlayRect.height * scaleY;
+
+    ctx.drawImage(
+      overlay,
+      exportX,
+      exportY,
+      exportWidth,
+      exportHeight
+    );
+  }
+
+  canvas.toBlob(
+    function (blob) {
+      if (!blob) {
+        alert("The preview could not be created.");
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+      const downloadLink = document.createElement("a");
+
+      downloadLink.href = objectUrl;
+      downloadLink.download = "alef-noon-client-preview.png";
+
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      downloadLink.remove();
+
+      setTimeout(function () {
+        URL.revokeObjectURL(objectUrl);
+      }, 1000);
+    },
+    "image/png"
+  );
+}
+</script>
+
+
+</body>
+</html>
