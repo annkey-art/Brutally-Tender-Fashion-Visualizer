@@ -1,5 +1,11 @@
 const fashionCatalog = {
-  "Dress": [],
+  "Dress": [
+    "gallery/overlays/Dress/blue_dress.png",
+    "gallery/overlays/Dress/gold_dress.png",
+    "gallery/overlays/Dress/mosaic_dress.png",
+    "gallery/overlays/Dress/pearl_dress.png",
+    "gallery/overlays/Dress/pink_dress.png"
+  ],
   "Shirt": [],
   "Trousers": [],
   "Skirt": [
