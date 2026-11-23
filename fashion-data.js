@@ -13,7 +13,13 @@ const fashionCatalog = {
     "gallery/overlays/Shirt/emerald_shirt.png",
     "gallery/overlays/Shirt/golden_shirt.png"
   ],
-  "Trousers": [],
+  "Trousers": [
+    "gallery/overlays/Trousers/blue_trousers.png",
+    "gallery/overlays/Trousers/cream_trousers.png",
+    "gallery/overlays/Trousers/green_trousers.png",
+    "gallery/overlays/Trousers/navy_trousers.png",
+    "gallery/overlays/Trousers/pink_trousers.png"
+  ],
   "Skirt": [
     "gallery/overlays/Skirt/gray_skirt.png",
     "gallery/overlays/Skirt/green_skirt.png",
