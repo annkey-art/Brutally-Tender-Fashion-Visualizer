@@ -6,7 +6,13 @@ const fashionCatalog = {
     "gallery/overlays/Dress/pearl_dress.png",
     "gallery/overlays/Dress/pink_dress.png"
   ],
-  "Shirt": [],
+  "Shirt": [
+    "gallery/overlays/Shirt/burgundy_shirt.png",
+    "gallery/overlays/Shirt/butterfly_shirt.png",
+    "gallery/overlays/Shirt/cubic_shirt.png",
+    "gallery/overlays/Shirt/emerald_shirt.png",
+    "gallery/overlays/Shirt/golden_shirt.png"
+  ],
   "Trousers": [],
   "Skirt": [
     "gallery/overlays/Skirt/gray_skirt.png",
